@@ -1,7 +1,9 @@
+import random
 import requests
 from bs4 import BeautifulSoup as bs
 from lxml import html
-import random
+from openpyxl import Workbook
+from openpyxl.styles import Font, Alignment
 
 
 def get_random_courses_list(url):
@@ -34,11 +36,28 @@ def get_courses_info_list(random_courses_list):
     return courses_info_list
 
 
-def output_courses_info_to_xlsx(filepath):
-    pass
+def output_courses_info_to_xlsx(courses_info_list):
+    wb = Workbook()
+    ws = wb.active
+    ws['A1'] = 'Course name'
+    ws['B1'] = 'Course language'
+    ws['C1'] = 'Start course date'
+    ws['D1'] = 'Course duration(weeks)'
+    ws['E1'] = 'Course rate'
+    for course in courses_info_list:
+        ws.append([course['course_name'],
+                   course['course_lang'],
+                   course['starting_date'],
+                   course['course_duration'],
+                   course['course_rate']
+                   if course['course_rate'] != ''
+                   else 'Not rated yet',
+                   ])
+    wb.save('Coursera.xlsx')
 
 
 if __name__ == '__main__':
     url = 'http://www.coursera.org/sitemap~www~courses.xml'
     random_courses_list = get_random_courses_list(url)
-    get_courses_info_list(random_courses_list)
+    courses_info_list = get_courses_info_list(random_courses_list)
+    output_courses_info_to_xlsx(courses_info_list)
