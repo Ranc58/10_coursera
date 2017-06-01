@@ -1,11 +1,15 @@
 # Coursera Dump
 
-This programm get 20 random courses from [coursera.org](https://coursera.org) and create .xlsx file in program folder with some information about course: 
+This programm get 20 random courses from [coursera.org](https://coursera.org)
+and create ```coursera.xlsx``` in program folder 
+with some information about course: 
 1. Course name
 2. Course language
 3. Start course date
 4. Course duration(on weeks)
-5. Course rate
+5. Course rate 
+
+If file already exist - program will add information to it, not rewrite.
 
 # How to Install
 
@@ -20,7 +24,7 @@ Launching on Linux:
 ```bash
 $ python coursera.py
 Please wait.
-Coursera.xlsx was created in folder <dirpath>
+Done! Your file "coursera.xlsx" in folder <dirpath>
 ```
 Launching on Windows is same
 
