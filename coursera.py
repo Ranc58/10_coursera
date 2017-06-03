@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import random
 import requests
@@ -7,23 +9,20 @@ from openpyxl import Workbook, load_workbook
 
 
 def get_random_courses_list(url):
-    courses_raw_html_list = []
     courses_quantity = 20
     context = requests.get(url)
     courses_tree = html.fromstring(context.content)
     courses_list = courses_tree.xpath('//loc/text()')
     random_courses_list = random.sample(courses_list, courses_quantity)
-    for course in random_courses_list:
-        course = requests.get(course)
-        course.encoding = 'UTF-8'
-        courses_raw_html_list.append(course)
+    courses_raw_html_list = [requests.get(course).content.decode('utf-8')
+                             for course in random_courses_list]
     return courses_raw_html_list
 
 
 def parse_course_html(courses_raw_html_list):
     parsed_courses_list = []
     for course in courses_raw_html_list:
-        parse_info = bs(''.join(course.text), "lxml")
+        parse_info = bs(''.join(course), "lxml")
         course_name = parse_info.find('h1', {'class': 'title display-3-text'})
         start_date = parse_info.find(
             'div', {'class': 'startdate rc-StartDateString caption-text'}
