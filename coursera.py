@@ -27,11 +27,8 @@ def parse_course_html(courses_raw_html_list):
         )
         language = parse_info.find('div', {'class': 'rc-Language'})
         course_duration = len(parse_info.findAll('div', {'class': 'week'}))
-        try:
-            rate = parse_info.find(
-                'div', {'class': 'ratings-text bt3-visible-xs'}).text
-        except AttributeError:
-            rate = 'Not rated yet'
+        rate = parse_info.find(
+            'div', {'class': 'ratings-text bt3-visible-xs'})
         course_info = {
             'course_name': course_name.text,
             'starting_date': start_date.text,
@@ -46,6 +43,10 @@ def parse_course_html(courses_raw_html_list):
 def add_course_content_to_xlsx(xlsx_file, parsed_courses_list):
     courses_info_book = load_workbook(filename=xlsx_file)
     for course in parsed_courses_list:
+        if course['course_rate'] is None:
+            course['course_rate'] = 'Not rated yet'
+        else:
+            course['course_rate'] = course['course_rate'].text
         courses_info_sheet = courses_info_book.active
         courses_info_sheet.append([course['course_name'],
                                    course['course_lang'],
