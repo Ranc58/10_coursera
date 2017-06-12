@@ -28,6 +28,3 @@ Done! Your file "coursera.xlsx" in folder <dirpath>
 ```
 Launching on Windows is same
 
-# Project Goals
-
-The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
